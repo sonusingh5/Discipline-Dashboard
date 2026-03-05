@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Discipline Dashboard</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.2/babel.min.js"></script>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:#0a0a0f;font-family:'Courier New',monospace;color:#e2e8f0;min-height:100vh}
+  ::-webkit-scrollbar{width:6px}
+  ::-webkit-scrollbar-track{background:#0d1117}
+  ::-webkit-scrollbar-thumb{background:#1e3a5f;border-radius:3px}
+  pre{white-space:pre-wrap;word-break:break-word}
+</style>
+</head>
+<body>
+<!-- PASSWORD LOCK -->
+<div id="lock-screen" style="
+  position:fixed;top:0;left:0;width:100%;height:100%;
+  background:linear-gradient(135deg,#0a0a0f,#0f3460);
+  display:flex;align-items:center;justify-content:center;
+  z-index:9999;font-family:'Courier New',monospace;
+">
+  <div style="text-align:center;padding:40px 30px;background:#111827;border:2px solid #3b82f6;border-radius:16px;max-width:340px;width:90%;">
+    <div style="font-size:40px;margin-bottom:12px;">🔐</div>
+    <div style="font-size:10px;letter-spacing:5px;color:#3b82f6;margin-bottom:8px;">DISCIPLINE DASHBOARD</div>
+    <div style="font-size:18px;font-weight:900;color:#e2e8f0;margin-bottom:24px;">Enter Password</div>
+    <input id="pwd-input" type="password" placeholder="Password daalo..."
+      onkeydown="if(event.key==='Enter') checkPassword()"
+      style="
+        width:100%;padding:12px 16px;border-radius:8px;
+        border:2px solid #1e293b;background:#0d1117;
+        color:#e2e8f0;font-family:'Courier New',monospace;
+        font-size:15px;outline:none;margin-bottom:12px;
+        text-align:center;letter-spacing:3px;
+      "
+    />
+    <div id="pwd-error" style="color:#ef4444;font-size:12px;margin-bottom:12px;height:16px;"></div>
+    <button onclick="checkPassword()" style="
+      width:100%;padding:12px;border-radius:8px;border:none;
+      background:linear-gradient(90deg,#1d4ed8,#3b82f6);
+      color:#fff;font-family:'Courier New',monospace;
+      font-size:14px;font-weight:700;cursor:pointer;letter-spacing:2px;
+    ">UNLOCK →</button>
+  </div>
+</div>
+
+<script>
+function checkPassword() {
+  const input = document.getElementById('pwd-input').value;
+  const error = document.getElementById('pwd-error');
+  if (input === 'Gautam') {
+    document.getElementById('lock-screen').style.display = 'none';
+  } else {
+    error.textContent = '❌ Wrong password. Try again.';
+    document.getElementById('pwd-input').value = '';
+    document.getElementById('pwd-input').focus();
+  }
+}
+document.addEventListener('DOMContentLoaded', function() {
+  document.getElementById('pwd-input').focus();
+});
+</script>
+
+<div id="root"></div>
+<script type="text/babel">
+
+const schedule = [
+  { time: "5:30 AM", task: "Uth ja — NO PHONE", icon: "🌅", type: "habit", rule: "Phone ko bed se door rakh. Pehla kaam = paani piyo." },
+  { time: "5:35 AM", task: "10 min Walk / Stretching", icon: "🏃", type: "body", rule: "Brain on karne ka shortcut — body move karo." },
+  { time: "5:45 AM", task: "English Speaking Practice", icon: "🗣️", type: "skill", rule: "Mirror ke saamne 5-10 min bolo. Topic: apne aap ko introduce karo." },
+  { time: "6:15 AM", task: "MySQL Practice — 3 Questions", icon: "🛢️", type: "sql", rule: "Sirf 3 questions — solve karo, likhkar dekho output kya hoga. Theory nahi, practice." },
+  { time: "7:00 AM", task: "Freshen Up + Breakfast", icon: "🍳", type: "body", rule: "Phone check karne se pehle khaana kha lo." },
+  { time: "7:30 AM", task: "Deep Work Block — SQL / English", icon: "💻", type: "skill", rule: "90 min — ek hi kaam. Phone dusre kamre mein. Pomodoro: 25 min kaam, 5 min break." },
+  { time: "9:00 AM", task: "Phone Check (limited)", icon: "📱", type: "phone", rule: "Sirf 15 min. Job notifications, important msgs. Social media NAHI." },
+  { time: "9:15 AM", task: "Job Applications / LinkedIn", icon: "💼", type: "job", rule: "3-5 jobs daily apply karo. Ek cover letter customise karo." },
+  { time: "10:30 AM", task: "Break — Kuch interesting padho", icon: "📖", type: "habit", rule: "SQL blog, English article, ya interview experience padho." },
+  { time: "11:00 AM", task: "Mock Interview Practice", icon: "🎯", type: "skill", rule: "Khud se questions pucho — MySQL + HR. Loud answer karo." },
+  { time: "12:00 PM", task: "Lunch + Rest", icon: "🥗", type: "body", rule: "Phone-free lunch. Khaate waqt sirf khaao." },
+  { time: "1:00 PM", task: "SQL Project Work", icon: "📊", type: "sql", rule: "Ek real dataset lo (Kaggle) — sales data pe queries likhho." },
+  { time: "3:00 PM", task: "English — Listening / Shadowing", icon: "🎧", type: "skill", rule: "YouTube: English interview videos. Ek sentence suno, repeat karo — exactly waise." },
+  { time: "4:00 PM", task: "Phone Check #2", icon: "📱", type: "phone", rule: "15 min only. Phir band." },
+  { time: "4:15 PM", task: "Revision — Aaj kya seekha", icon: "📝", type: "habit", rule: "5 min likhho: aaj kya kiya, kya nahi hua, kal kya improve karna hai." },
+  { time: "5:00 PM", task: "Exercise / Walk", icon: "🏋️", type: "body", rule: "30 min minimum. Screen-free time. Dimag reset hoga." },
+  { time: "6:00 PM", task: "Free Time / Family", icon: "🏠", type: "habit", rule: "Real life. Phone allowed but social media time limit: 20 min." },
+  { time: "8:00 PM", task: "Night Revision — 5 SQL Qs", icon: "🌙", type: "sql", rule: "Concepts yaad karo — joins, subqueries, window functions." },
+  { time: "9:00 PM", task: "Next Day Plan", icon: "📋", type: "habit", rule: "Kal ke 3 main goals likho. Phir phone band karo." },
+  { time: "9:30 PM", task: "Phone OFF — Sleep", icon: "😴", type: "habit", rule: "Phone ko charge par lagao — dusre kamre mein. 8 ghante neend = brain power." },
+];
+
+const mysqlQuestions = [
+  {
+    category: "Basic Sales",
+    questions: [
+      { q: "Total revenue calculate karo sales table se (columns: order_id, product, quantity, price).", sql: `SELECT SUM(quantity * price) AS total_revenue\nFROM sales;`, explanation: "SUM() aggregate function use karo. quantity * price = ek order ki value." },
+      { q: "Top 5 products by total sales revenue dikhao.", sql: `SELECT product,\n  SUM(quantity * price) AS revenue\nFROM sales\nGROUP BY product\nORDER BY revenue DESC\nLIMIT 5;`, explanation: "GROUP BY product, ORDER BY revenue DESC, LIMIT 5 for top 5." },
+      { q: "Month-wise total sales dikhao (order_date column hai).", sql: `SELECT \n  YEAR(order_date) AS year,\n  MONTH(order_date) AS month,\n  SUM(quantity * price) AS monthly_revenue\nFROM sales\nGROUP BY YEAR(order_date), MONTH(order_date)\nORDER BY year, month;`, explanation: "YEAR() aur MONTH() functions se date extract karo. GROUP BY dono columns se." },
+      { q: "Vo customers dikhao jinhone 10,000 se zyada purchase kiya ho.", sql: `SELECT customer_id,\n  SUM(quantity * price) AS total_purchase\nFROM sales\nGROUP BY customer_id\nHAVING SUM(quantity * price) > 10000\nORDER BY total_purchase DESC;`, explanation: "HAVING clause use hota hai aggregate functions ke filter ke liye — WHERE nahi." },
+    ]
+  },
+  {
+    category: "Marketing",
+    questions: [
+      { q: "Har marketing channel ka conversion rate nikalo. Table: campaigns(channel, clicks, conversions).", sql: `SELECT \n  channel, clicks, conversions,\n  ROUND((conversions/clicks)*100, 2) AS conversion_rate_pct\nFROM campaigns\nORDER BY conversion_rate_pct DESC;`, explanation: "Conversion rate = (conversions/clicks)*100. ROUND() 2 decimal tak." },
+      { q: "Sabse zyada ROI wala campaign dikhao. Table: campaigns(campaign_name, spend, revenue).", sql: `SELECT campaign_name, spend, revenue,\n  ROUND(((revenue-spend)/spend)*100,2) AS roi_pct\nFROM campaigns\nORDER BY roi_pct DESC\nLIMIT 1;`, explanation: "ROI = ((revenue - spend) / spend) * 100. Simple formula, powerful insight." },
+      { q: "Region-wise sales compare karo last year vs this year.", sql: `SELECT region,\n  SUM(CASE WHEN YEAR(order_date)=2023 THEN revenue ELSE 0 END) AS sales_2023,\n  SUM(CASE WHEN YEAR(order_date)=2024 THEN revenue ELSE 0 END) AS sales_2024\nFROM sales\nGROUP BY region;`, explanation: "CASE WHEN ek conditional aggregation hai — pivot table jaisa." },
+      { q: "Customer retention: Vo customers jo dono months mein (Jan aur Feb) aaye.", sql: `SELECT DISTINCT customer_id\nFROM orders\nWHERE MONTH(order_date) = 1\nAND customer_id IN (\n  SELECT customer_id FROM orders\n  WHERE MONTH(order_date) = 2\n);`, explanation: "Subquery use karo. Retention = Jan mein aaye, aur Feb mein bhi." },
+    ]
+  },
+  {
+    category: "JOINs",
+    questions: [
+      { q: "Customers aur orders join karke dikhao: customer_name, order_id, order_amount.", sql: `SELECT \n  c.customer_name,\n  o.order_id,\n  o.order_amount\nFROM customers c\nINNER JOIN orders o\n  ON c.customer_id = o.customer_id;`, explanation: "INNER JOIN sirf matching rows deta hai. c aur o aliases hain." },
+      { q: "Vo customers dikhao jinke koi orders nahi hain (LEFT JOIN).", sql: `SELECT \n  c.customer_name,\n  o.order_id\nFROM customers c\nLEFT JOIN orders o\n  ON c.customer_id = o.customer_id\nWHERE o.order_id IS NULL;`, explanation: "LEFT JOIN saare customers leta hai. NULL order_id = koi order nahi." },
+      { q: "Har salesperson ka total sales amount nikalo.", sql: `SELECT \n  sp.salesperson_name,\n  COUNT(s.order_id) AS total_orders,\n  SUM(s.order_amount) AS total_sales\nFROM salesperson sp\nLEFT JOIN sales s ON sp.id = s.salesperson_id\nGROUP BY sp.salesperson_name\nORDER BY total_sales DESC;`, explanation: "LEFT JOIN liya taaki zero sales wale salesperson bhi dikhein." },
+    ]
+  },
+  {
+    category: "Window Fn",
+    questions: [
+      { q: "Har product ka running total (cumulative sum) nikalo date-wise.", sql: `SELECT \n  product, order_date, revenue,\n  SUM(revenue) OVER (\n    PARTITION BY product \n    ORDER BY order_date\n  ) AS running_total\nFROM sales;`, explanation: "OVER() = window function. PARTITION BY product = har product ke liye alag." },
+      { q: "Rank karo customers ko unke total purchase ke basis pe.", sql: `SELECT customer_id, total_purchase,\n  RANK() OVER (\n    ORDER BY total_purchase DESC\n  ) AS customer_rank\nFROM (\n  SELECT customer_id,\n    SUM(order_amount) AS total_purchase\n  FROM orders\n  GROUP BY customer_id\n) ranked;`, explanation: "RANK() window function. Subquery se pehle total nikala, phir rank lagai." },
+      { q: "Har region mein top salesperson dikhao.", sql: `SELECT * FROM (\n  SELECT region, salesperson_name, total_sales,\n    RANK() OVER (\n      PARTITION BY region \n      ORDER BY total_sales DESC\n    ) AS rnk\n  FROM sales_summary\n) ranked\nWHERE rnk = 1;`, explanation: "PARTITION BY region = har region mein alag ranking. Phir rnk=1 filter." },
+    ]
+  },
+  {
+    category: "CTE & Sub",
+    questions: [
+      { q: "Average se zyada sales wale products dikhao.", sql: `SELECT product,\n  SUM(revenue) AS total\nFROM sales\nGROUP BY product\nHAVING SUM(revenue) > (\n  SELECT AVG(product_total) FROM (\n    SELECT SUM(revenue) AS product_total\n    FROM sales\n    GROUP BY product\n  ) sub\n);`, explanation: "Nested subquery — andar wala AVG nikalti hai, bahar wala compare karta hai." },
+      { q: "CTE use karke monthly revenue aur growth % nikalo.", sql: `WITH monthly AS (\n  SELECT \n    DATE_FORMAT(order_date,'%Y-%m') AS month,\n    SUM(revenue) AS monthly_revenue\n  FROM sales GROUP BY month\n)\nSELECT month, monthly_revenue,\n  LAG(monthly_revenue) OVER (ORDER BY month) AS prev_month,\n  ROUND(\n    (monthly_revenue - LAG(monthly_revenue) OVER (ORDER BY month))\n    / LAG(monthly_revenue) OVER (ORDER BY month) * 100, 2\n  ) AS growth_pct\nFROM monthly;`, explanation: "CTE (WITH clause) = reusable query block. LAG() = pichle row ki value." },
+    ]
+  }
+];
+
+const rules = [
+  { rule: "Phone ko subah uthte hi mat dekho", why: "Pehle 30 min phone = aadha din waste", action: "Phone ko room se bahar charge karo" },
+  { rule: "Social media sirf 2 baar — 15 min each", why: "Scroll karna dopamine trap hai", action: "App timers lagao (Digital Wellbeing)" },
+  { rule: "Har din 3 SQL queries khud likho", why: "Read karna ≠ Practice karna", action: "DB Fiddle ya MySQL Workbench use karo" },
+  { rule: "English mein roz 10 min khud se bolo", why: "Speaking confidence practice se aati hai", action: "Record karo, sunno, improve karo" },
+  { rule: "Roz 3-5 jobs apply karo", why: "Volume matters in job search", action: "LinkedIn Easy Apply + custom message" },
+  { rule: "Raat ko next day plan karo", why: "Clarity tomorrow ki productivity badhati hai", action: "3 goals — bas teen, zyada nahi" },
+];
+
+const typeColor = { habit:"#6366f1", body:"#10b981", skill:"#f59e0b", sql:"#3b82f6", phone:"#ef4444", job:"#8b5cf6" };
+
+function App() {
+  const [tab, setTab] = React.useState("schedule");
+  const [openQ, setOpenQ] = React.useState(null);
+  const [cat, setCat] = React.useState(0);
+  const [done, setDone] = React.useState({});
+
+  const toggle = (i) => setDone(p => ({...p,[i]:!p[i]}));
+  const count = Object.values(done).filter(Boolean).length;
+  const pct = Math.round((count/schedule.length)*100);
+
+  return (
+    <div style={{minHeight:"100vh",background:"#0a0a0f",fontFamily:"'Courier New',monospace",color:"#e2e8f0",paddingBottom:40}}>
+
+      {/* Header */}
+      <div style={{background:"linear-gradient(135deg,#1a1a2e,#16213e,#0f3460)",padding:"28px 20px 20px",borderBottom:"2px solid #3b82f6",textAlign:"center"}}>
+        <div style={{fontSize:10,letterSpacing:6,color:"#3b82f6",marginBottom:8,textTransform:"uppercase"}}>SYSTEM BOOT — YOUR DAILY OS</div>
+        <h1 style={{fontSize:"clamp(22px,5vw,36px)",fontWeight:900,margin:0,background:"linear-gradient(90deg,#60a5fa,#a78bfa,#34d399)",WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent",letterSpacing:2}}>
+          DISCIPLINE DASHBOARD
+        </h1>
+        <p style={{color:"#94a3b8",fontSize:12,margin:"8px 0 0",letterSpacing:1}}>Schedule + MySQL Practice + Rules — Sab ek jagah</p>
+      </div>
+
+      {/* Tabs */}
+      <div style={{display:"flex",gap:4,padding:"16px 12px 0",justifyContent:"center",flexWrap:"wrap"}}>
+        {[["schedule","📅 Schedule"],["rules","⚡ Rules"],["mysql","🛢️ MySQL"]].map(([id,label])=>(
+          <button key={id} onClick={()=>setTab(id)} style={{
+            padding:"10px 16px",borderRadius:8,cursor:"pointer",fontFamily:"inherit",fontWeight:700,fontSize:12,letterSpacing:1,transition:"all 0.2s",
+            border:tab===id?"2px solid #3b82f6":"2px solid #1e293b",
+            background:tab===id?"#1e3a5f":"#111827",
+            color:tab===id?"#60a5fa":"#64748b"
+          }}>{label}</button>
+        ))}
+      </div>
+
+      <div style={{maxWidth:760,margin:"0 auto",padding:"20px 14px"}}>
+
+        {/* SCHEDULE */}
+        {tab==="schedule" && (
+          <div>
+            <div style={{background:"#111827",border:"1px solid #1e293b",borderRadius:12,padding:"16px 20px",marginBottom:20,display:"flex",justifyContent:"space-between",alignItems:"center"}}>
+              <div>
+                <div style={{fontSize:10,color:"#64748b",letterSpacing:2}}>TODAY'S PROGRESS</div>
+                <div style={{fontSize:28,fontWeight:900,color:"#60a5fa"}}>{count} / {schedule.length}</div>
+              </div>
+              <div style={{width:64,height:64,borderRadius:"50%",background:`conic-gradient(#3b82f6 ${pct*3.6}deg,#1e293b 0deg)`,display:"flex",alignItems:"center",justifyContent:"center"}}>
+                <div style={{width:50,height:50,borderRadius:"50%",background:"#111827",display:"flex",alignItems:"center",justifyContent:"center",fontSize:13,fontWeight:700,color:"#60a5fa"}}>{pct}%</div>
+              </div>
+            </div>
+            {schedule.map((item,i)=>(
+              <div key={i} onClick={()=>toggle(i)} style={{
+                background:done[i]?"#0f1f0f":"#0d1117",
+                border:`1px solid ${done[i]?"#166534":"#1e293b"}`,
+                borderLeft:`4px solid ${typeColor[item.type]}`,
+                borderRadius:10,padding:"14px 14px",marginBottom:10,cursor:"pointer",
+                opacity:done[i]?0.55:1,transition:"all 0.2s"
+              }}>
+                <div style={{display:"flex",alignItems:"flex-start",gap:10}}>
+                  <div style={{width:20,height:20,borderRadius:4,border:`2px solid ${typeColor[item.type]}`,background:done[i]?typeColor[item.type]:"transparent",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0,marginTop:2}}>
+                    {done[i]&&<span style={{color:"#fff",fontSize:11,fontWeight:900}}>✓</span>}
+                  </div>
+                  <div style={{flex:1}}>
+                    <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",flexWrap:"wrap",gap:4}}>
+                      <div style={{fontSize:14,fontWeight:700,textDecoration:done[i]?"line-through":"none"}}>{item.icon} {item.task}</div>
+                      <div style={{fontSize:10,color:typeColor[item.type],fontWeight:700,background:`${typeColor[item.type]}22`,padding:"2px 8px",borderRadius:4}}>{item.time}</div>
+                    </div>
+                    <div style={{fontSize:11,color:"#64748b",marginTop:4}}>{item.rule}</div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {/* RULES */}
+        {tab==="rules" && (
+          <div>
+            <div style={{background:"#1a0a0a",border:"1px solid #450a0a",borderRadius:12,padding:"16px 20px",marginBottom:20}}>
+              <div style={{fontSize:13,color:"#f87171",fontWeight:700,marginBottom:6}}>⚠️ HARSH TRUTH</div>
+              <div style={{fontSize:13,color:"#fca5a5",lineHeight:1.7}}>Tune theory padhi hai — lekin bina practice ke theory = zero value. Ab sirf ek kaam: <strong>daily execution</strong>. Ye rules follow karo — excuses mat dhoondho.</div>
+            </div>
+            {rules.map((r,i)=>(
+              <div key={i} style={{background:"#0d1117",border:"1px solid #1e293b",borderLeft:"4px solid #f59e0b",borderRadius:10,padding:"16px 16px",marginBottom:12}}>
+                <div style={{fontSize:14,fontWeight:800,color:"#fbbf24",marginBottom:6}}>{i+1}. {r.rule}</div>
+                <div style={{fontSize:12,color:"#94a3b8",marginBottom:8}}>🧠 <em>Kyun:</em> {r.why}</div>
+                <div style={{fontSize:12,color:"#34d399",background:"#022c22",padding:"6px 10px",borderRadius:6,fontWeight:600}}>▶ {r.action}</div>
+              </div>
+            ))}
+            <div style={{background:"#111827",border:"1px solid #1e293b",borderRadius:12,padding:"20px",marginTop:20}}>
+              <div style={{fontSize:13,fontWeight:800,color:"#60a5fa",marginBottom:12}}>📱 MOBILE ADDICTION TODNE KE STEPS</div>
+              {["Screen Time / Digital Wellbeing ON karo — har app ka limit set karo","Instagram/YouTube = max 30 min/day. Timer lagao.","Subah ka pehla action: glass of water — phone nahi","Raat 9:30 ke baad phone ko doosre room mein rakh do","Boring moments mein = SQL mentally solve karo","Phone pe entertainment apps ko home screen se hata do"].map((tip,i)=>(
+                <div key={i} style={{fontSize:12,color:"#94a3b8",padding:"8px 0",borderBottom:"1px solid #1e293b",display:"flex",gap:10}}>
+                  <span style={{color:"#ef4444",fontWeight:900,flexShrink:0}}>{i+1}.</span>{tip}
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* MYSQL */}
+        {tab==="mysql" && (
+          <div>
+            <div style={{background:"#0a1628",border:"1px solid #1e3a5f",borderRadius:12,padding:"14px 16px",marginBottom:16}}>
+              <div style={{fontSize:12,color:"#60a5fa",fontWeight:700}}>💡 HOW TO USE: Pehle khud try karo, phir answer click karo</div>
+            </div>
+            <div style={{display:"flex",gap:6,marginBottom:16,flexWrap:"wrap"}}>
+              {mysqlQuestions.map((c,i)=>(
+                <button key={i} onClick={()=>{setCat(i);setOpenQ(null);}} style={{
+                  padding:"7px 12px",borderRadius:6,fontSize:11,fontWeight:700,cursor:"pointer",fontFamily:"inherit",
+                  border:cat===i?"2px solid #3b82f6":"2px solid #1e293b",
+                  background:cat===i?"#1e3a5f":"#111827",
+                  color:cat===i?"#60a5fa":"#64748b"
+                }}>{c.category}</button>
+              ))}
+            </div>
+            {mysqlQuestions[cat].questions.map((item,qi)=>{
+              const key=`${cat}-${qi}`;
+              return (
+                <div key={qi} style={{background:"#0d1117",border:"1px solid #1e293b",borderRadius:12,marginBottom:12,overflow:"hidden"}}>
+                  <div onClick={()=>setOpenQ(openQ===key?null:key)} style={{padding:"14px 16px",cursor:"pointer",display:"flex",justifyContent:"space-between",alignItems:"flex-start",gap:10}}>
+                    <div>
+                      <span style={{fontSize:10,color:"#3b82f6",fontWeight:700,background:"#0a1628",padding:"2px 7px",borderRadius:4,marginRight:8}}>Q{qi+1}</span>
+                      <span style={{fontSize:13,color:"#e2e8f0",fontWeight:600,lineHeight:1.5}}>{item.q}</span>
+                    </div>
+                    <span style={{color:"#3b82f6",fontSize:16,flexShrink:0,transform:openQ===key?"rotate(90deg)":"rotate(0)",transition:"transform 0.2s"}}>▶</span>
+                  </div>
+                  {openQ===key&&(
+                    <div style={{borderTop:"1px solid #1e293b"}}>
+                      <div style={{background:"#020617",padding:"16px 16px",overflowX:"auto"}}>
+                        <div style={{fontSize:10,color:"#64748b",marginBottom:8,letterSpacing:2}}>SQL ANSWER</div>
+                        <pre style={{fontSize:12,lineHeight:1.8,color:"#7dd3fc",fontFamily:"'Courier New',monospace"}}>{item.sql}</pre>
+                      </div>
+                      <div style={{background:"#0a1a0a",padding:"12px 16px",borderTop:"1px solid #1e293b"}}>
+                        <span style={{color:"#34d399",fontSize:12,fontWeight:700}}>💡 Explanation: </span>
+                        <span style={{color:"#86efac",fontSize:12}}>{item.explanation}</span>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+            <div style={{background:"#0a0a1a",border:"1px solid #312e81",borderRadius:12,padding:"18px",marginTop:10}}>
+              <div style={{fontSize:13,fontWeight:800,color:"#a78bfa",marginBottom:10}}>🎯 PRACTICE CHALLENGE — Aaj Ka Goal</div>
+              {["Kaggle pe 'Superstore Sales' dataset download karo","MySQL Workbench ya DB Fiddle pe import karo","Khud se 5 queries likho — revenue, top products, monthly trends","Window functions use karke ranking banao","Output ko Excel mein copy karke analyse karo"].map((s,i)=>(
+                <div key={i} style={{fontSize:12,color:"#c4b5fd",padding:"7px 0",borderBottom:"1px solid #1e1b4b",display:"flex",gap:8}}>
+                  <span style={{color:"#7c3aed",fontWeight:900,flexShrink:0}}>Step {i+1}:</span>{s}
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+</script>
+</body>
+</html>
