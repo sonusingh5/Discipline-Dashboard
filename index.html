@@ -69,26 +69,55 @@ document.addEventListener('DOMContentLoaded', function() {
 <script type="text/babel">
 
 const schedule = [
-  { time: "5:30 AM", task: "Uth ja — NO PHONE", icon: "🌅", type: "habit", rule: "Phone ko bed se door rakh. Pehla kaam = paani piyo." },
-  { time: "5:35 AM", task: "10 min Walk / Stretching", icon: "🏃", type: "body", rule: "Brain on karne ka shortcut — body move karo." },
-  { time: "5:45 AM", task: "English Speaking Practice", icon: "🗣️", type: "skill", rule: "Mirror ke saamne 5-10 min bolo. Topic: apne aap ko introduce karo." },
-  { time: "6:15 AM", task: "MySQL Practice — 3 Questions", icon: "🛢️", type: "sql", rule: "Sirf 3 questions — solve karo, likhkar dekho output kya hoga. Theory nahi, practice." },
-  { time: "7:00 AM", task: "Freshen Up + Breakfast", icon: "🍳", type: "body", rule: "Phone check karne se pehle khaana kha lo." },
-  { time: "7:30 AM", task: "Deep Work Block — SQL / English", icon: "💻", type: "skill", rule: "90 min — ek hi kaam. Phone dusre kamre mein. Pomodoro: 25 min kaam, 5 min break." },
-  { time: "9:00 AM", task: "Phone Check (limited)", icon: "📱", type: "phone", rule: "Sirf 15 min. Job notifications, important msgs. Social media NAHI." },
-  { time: "9:15 AM", task: "Job Applications / LinkedIn", icon: "💼", type: "job", rule: "3-5 jobs daily apply karo. Ek cover letter customise karo." },
-  { time: "10:30 AM", task: "Break — Kuch interesting padho", icon: "📖", type: "habit", rule: "SQL blog, English article, ya interview experience padho." },
-  { time: "11:00 AM", task: "Mock Interview Practice", icon: "🎯", type: "skill", rule: "Khud se questions pucho — MySQL + HR. Loud answer karo." },
-  { time: "12:00 PM", task: "Lunch + Rest", icon: "🥗", type: "body", rule: "Phone-free lunch. Khaate waqt sirf khaao." },
-  { time: "1:00 PM", task: "SQL Project Work", icon: "📊", type: "sql", rule: "Ek real dataset lo (Kaggle) — sales data pe queries likhho." },
-  { time: "3:00 PM", task: "English — Listening / Shadowing", icon: "🎧", type: "skill", rule: "YouTube: English interview videos. Ek sentence suno, repeat karo — exactly waise." },
-  { time: "4:00 PM", task: "Phone Check #2", icon: "📱", type: "phone", rule: "15 min only. Phir band." },
-  { time: "4:15 PM", task: "Revision — Aaj kya seekha", icon: "📝", type: "habit", rule: "5 min likhho: aaj kya kiya, kya nahi hua, kal kya improve karna hai." },
-  { time: "5:00 PM", task: "Exercise / Walk", icon: "🏋️", type: "body", rule: "30 min minimum. Screen-free time. Dimag reset hoga." },
-  { time: "6:00 PM", task: "Free Time / Family", icon: "🏠", type: "habit", rule: "Real life. Phone allowed but social media time limit: 20 min." },
-  { time: "8:00 PM", task: "Night Revision — 5 SQL Qs", icon: "🌙", type: "sql", rule: "Concepts yaad karo — joins, subqueries, window functions." },
-  { time: "9:00 PM", task: "Next Day Plan", icon: "📋", type: "habit", rule: "Kal ke 3 main goals likho. Phir phone band karo." },
-  { time: "9:30 PM", task: "Phone OFF — Sleep", icon: "😴", type: "habit", rule: "Phone ko charge par lagao — dusre kamre mein. 8 ghante neend = brain power." },
+  // ── MORNING BLOCK (7:00 AM – 9:00 AM) ──
+  { time: "7:00 AM", task: "Uth ja — NO PHONE", icon: "🌅", type: "habit",
+    rule: "Phone ko bed se door rakh. Pehla kaam = paani piyo, 1 min deep breath." },
+  { time: "7:05 AM", task: "10 min Walk / Stretching", icon: "🏃", type: "body",
+    rule: "Brain on karne ka shortcut. Body move karo — yahi pehla discipline hai." },
+  { time: "7:15 AM", task: "Freshen Up", icon: "🚿", type: "body",
+    rule: "Quick freshen up — 15 min max. Phone mat dekho abhi bhi." },
+  { time: "7:30 AM", task: "Breakfast — Phone Free", icon: "🍳", type: "body",
+    rule: "Phone check karne se pehle khaana kha lo. Yeh chhota rule bada farak karta hai." },
+  { time: "8:00 AM", task: "English Speaking Practice", icon: "🗣️", type: "skill",
+    rule: "Mirror ke saamne 10 min bolo. Topic: apne aap ko introduce karo. Record karo." },
+  { time: "8:15 AM", task: "MySQL Practice — 3 Questions", icon: "🛢️", type: "sql",
+    rule: "Sirf 3 questions — khud likho, phir check karo. Theory padna = kaam nahi, likhna = kaam." },
+  { time: "9:00 AM", task: "Phone Check #1 (15 min only)", icon: "📱", type: "phone",
+    rule: "Sirf 15 min. Job alerts, important msgs. Social media BILKUL NAHI." },
+
+  // ── DEEP WORK BLOCK (9:15 AM – 12:00 PM) ──
+  { time: "9:15 AM", task: "Deep Work — SQL / English", icon: "💻", type: "skill",
+    rule: "90 min block. Phone dusre kamre mein. Pomodoro: 25 min kaam, 5 min break." },
+  { time: "10:45 AM", task: "Break — Kuch padho", icon: "📖", type: "habit",
+    rule: "SQL blog, English article, ya interview experience padho. YouTube nahi — sirf read." },
+  { time: "11:00 AM", task: "Job Applications / LinkedIn", icon: "💼", type: "job",
+    rule: "3-5 jobs daily apply karo. Ek cover letter customise zaroor karo." },
+  { time: "12:00 PM", task: "Mock Interview Practice", icon: "🎯", type: "skill",
+    rule: "Khud se MySQL + HR questions pucho. Loud bolo — confidence tabhi aayegi." },
+
+  // ── AFTERNOON BLOCK (12:30 PM – 4:00 PM) ──
+  { time: "12:30 PM", task: "Lunch + Rest", icon: "🥗", type: "body",
+    rule: "Phone-free lunch. Sirf 30 min rest. Zyada mat soao — momentum tootega." },
+  { time: "1:00 PM", task: "SQL Project Work", icon: "📊", type: "sql",
+    rule: "Kaggle ka ek real dataset lo (Superstore/Sales). Khud se 5 queries likho." },
+  { time: "3:00 PM", task: "English — Listening / Shadowing", icon: "🎧", type: "skill",
+    rule: "YouTube: English interview video. Ek sentence suno, repeat karo exactly waise." },
+  { time: "4:00 PM", task: "Phone Check #2 (15 min only)", icon: "📱", type: "phone",
+    rule: "15 min. Phir band. Scroll mat karo — sirf important cheezein dekho." },
+
+  // ── EVENING BLOCK (4:15 PM – 9:30 PM) ──
+  { time: "4:15 PM", task: "Revision — Aaj kya seekha", icon: "📝", type: "habit",
+    rule: "5 min likhho: aaj kya kiya, kya nahi hua, kal kya improve karna hai." },
+  { time: "5:00 PM", task: "Exercise / Walk", icon: "🏋️", type: "body",
+    rule: "30 min minimum. Screen-free. Dimag reset hoga — ye investment hai, time waste nahi." },
+  { time: "6:00 PM", task: "Free Time / Family", icon: "🏠", type: "habit",
+    rule: "Real life jiyo. Phone allowed — lekin social media max 20 min." },
+  { time: "8:00 PM", task: "Night Revision — 5 SQL Qs", icon: "🌙", type: "sql",
+    rule: "Concepts yaad karo — joins, subqueries, window functions. Likhkar practice karo." },
+  { time: "9:00 PM", task: "Next Day Plan", icon: "📋", type: "habit",
+    rule: "Kal ke 3 main goals likho. Bas teen. Phir phone band karo." },
+  { time: "9:30 PM", task: "Phone OFF — Sleep", icon: "😴", type: "habit",
+    rule: "Phone ko charge par lagao — dusre kamre mein. 7–8 ghante neend = brain power." },
 ];
 
 const mysqlQuestions = [
@@ -146,15 +175,30 @@ const rules = [
 
 const typeColor = { habit:"#6366f1", body:"#10b981", skill:"#f59e0b", sql:"#3b82f6", phone:"#ef4444", job:"#8b5cf6" };
 
+// Group schedule by blocks
+const blocks = [
+  { label: "🌅 Morning Block", time: "7:00 – 9:00 AM", color: "#f59e0b", bg: "#1c1500", border: "#92400e", indices: [0,1,2,3,4,5,6] },
+  { label: "💻 Deep Work Block", time: "9:15 AM – 12:30 PM", color: "#3b82f6", bg: "#0a1628", border: "#1e3a5f", indices: [7,8,9,10] },
+  { label: "☀️ Afternoon Block", time: "12:30 – 4:00 PM", color: "#10b981", bg: "#021a12", border: "#065f46", indices: [11,12,13,14] },
+  { label: "🌆 Evening Block", time: "4:15 – 9:30 PM", color: "#a78bfa", bg: "#120a2a", border: "#4c1d95", indices: [15,16,17,18,19,20] },
+];
+
 function App() {
   const [tab, setTab] = React.useState("schedule");
   const [openQ, setOpenQ] = React.useState(null);
   const [cat, setCat] = React.useState(0);
   const [done, setDone] = React.useState({});
+  const [openBlock, setOpenBlock] = React.useState({0:true,1:true,2:true,3:true});
 
   const toggle = (i) => setDone(p => ({...p,[i]:!p[i]}));
+  const toggleBlock = (bi) => setOpenBlock(p => ({...p,[bi]:!p[bi]}));
   const count = Object.values(done).filter(Boolean).length;
   const pct = Math.round((count/schedule.length)*100);
+
+  const blockProgress = (indices) => {
+    const doneCount = indices.filter(i => done[i]).length;
+    return { done: doneCount, total: indices.length, pct: Math.round((doneCount/indices.length)*100) };
+  };
 
   return (
     <div style={{minHeight:"100vh",background:"#0a0a0f",fontFamily:"'Courier New',monospace",color:"#e2e8f0",paddingBottom:40}}>
@@ -185,37 +229,88 @@ function App() {
         {/* SCHEDULE */}
         {tab==="schedule" && (
           <div>
+            {/* Overall Progress */}
             <div style={{background:"#111827",border:"1px solid #1e293b",borderRadius:12,padding:"16px 20px",marginBottom:20,display:"flex",justifyContent:"space-between",alignItems:"center"}}>
               <div>
                 <div style={{fontSize:10,color:"#64748b",letterSpacing:2}}>TODAY'S PROGRESS</div>
                 <div style={{fontSize:28,fontWeight:900,color:"#60a5fa"}}>{count} / {schedule.length}</div>
+                <div style={{fontSize:11,color:"#64748b",marginTop:2}}>7:00 AM – 9:30 PM</div>
               </div>
               <div style={{width:64,height:64,borderRadius:"50%",background:`conic-gradient(#3b82f6 ${pct*3.6}deg,#1e293b 0deg)`,display:"flex",alignItems:"center",justifyContent:"center"}}>
                 <div style={{width:50,height:50,borderRadius:"50%",background:"#111827",display:"flex",alignItems:"center",justifyContent:"center",fontSize:13,fontWeight:700,color:"#60a5fa"}}>{pct}%</div>
               </div>
             </div>
-            {schedule.map((item,i)=>(
-              <div key={i} onClick={()=>toggle(i)} style={{
-                background:done[i]?"#0f1f0f":"#0d1117",
-                border:`1px solid ${done[i]?"#166534":"#1e293b"}`,
-                borderLeft:`4px solid ${typeColor[item.type]}`,
-                borderRadius:10,padding:"14px 14px",marginBottom:10,cursor:"pointer",
-                opacity:done[i]?0.55:1,transition:"all 0.2s"
-              }}>
-                <div style={{display:"flex",alignItems:"flex-start",gap:10}}>
-                  <div style={{width:20,height:20,borderRadius:4,border:`2px solid ${typeColor[item.type]}`,background:done[i]?typeColor[item.type]:"transparent",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0,marginTop:2}}>
-                    {done[i]&&<span style={{color:"#fff",fontSize:11,fontWeight:900}}>✓</span>}
-                  </div>
-                  <div style={{flex:1}}>
-                    <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",flexWrap:"wrap",gap:4}}>
-                      <div style={{fontSize:14,fontWeight:700,textDecoration:done[i]?"line-through":"none"}}>{item.icon} {item.task}</div>
-                      <div style={{fontSize:10,color:typeColor[item.type],fontWeight:700,background:`${typeColor[item.type]}22`,padding:"2px 8px",borderRadius:4}}>{item.time}</div>
+
+            {/* Blocks */}
+            {blocks.map((block, bi) => {
+              const bp = blockProgress(block.indices);
+              return (
+                <div key={bi} style={{marginBottom:16}}>
+                  {/* Block Header */}
+                  <div
+                    onClick={()=>toggleBlock(bi)}
+                    style={{
+                      background:block.bg,
+                      border:`2px solid ${block.border}`,
+                      borderRadius:openBlock[bi]?"12px 12px 0 0":"12px",
+                      padding:"12px 16px",
+                      cursor:"pointer",
+                      display:"flex",
+                      justifyContent:"space-between",
+                      alignItems:"center",
+                    }}
+                  >
+                    <div>
+                      <div style={{fontSize:13,fontWeight:900,color:block.color}}>{block.label}</div>
+                      <div style={{fontSize:10,color:"#64748b",marginTop:2}}>{block.time}</div>
                     </div>
-                    <div style={{fontSize:11,color:"#64748b",marginTop:4}}>{item.rule}</div>
+                    <div style={{display:"flex",alignItems:"center",gap:12}}>
+                      {/* Mini progress */}
+                      <div style={{textAlign:"right"}}>
+                        <div style={{fontSize:11,color:block.color,fontWeight:700}}>{bp.done}/{bp.total}</div>
+                        <div style={{width:60,height:4,background:"#1e293b",borderRadius:2,marginTop:3}}>
+                          <div style={{width:`${bp.pct}%`,height:"100%",background:block.color,borderRadius:2,transition:"width 0.3s"}}/>
+                        </div>
+                      </div>
+                      <span style={{color:block.color,fontSize:14,transform:openBlock[bi]?"rotate(90deg)":"rotate(0)",transition:"transform 0.2s"}}>▶</span>
+                    </div>
                   </div>
+
+                  {/* Block Tasks */}
+                  {openBlock[bi] && (
+                    <div style={{border:`1px solid ${block.border}`,borderTop:"none",borderRadius:"0 0 12px 12px",overflow:"hidden"}}>
+                      {block.indices.map((i)=>{
+                        const item = schedule[i];
+                        return (
+                          <div key={i} onClick={()=>toggle(i)} style={{
+                            background:done[i]?"#0a1a0a":"#0d1117",
+                            borderLeft:`4px solid ${typeColor[item.type]}`,
+                            borderBottom:"1px solid #1a1a2e",
+                            padding:"13px 14px",
+                            cursor:"pointer",
+                            opacity:done[i]?0.5:1,
+                            transition:"all 0.2s"
+                          }}>
+                            <div style={{display:"flex",alignItems:"flex-start",gap:10}}>
+                              <div style={{width:18,height:18,borderRadius:4,border:`2px solid ${typeColor[item.type]}`,background:done[i]?typeColor[item.type]:"transparent",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0,marginTop:2}}>
+                                {done[i]&&<span style={{color:"#fff",fontSize:10,fontWeight:900}}>✓</span>}
+                              </div>
+                              <div style={{flex:1}}>
+                                <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",flexWrap:"wrap",gap:4}}>
+                                  <div style={{fontSize:13,fontWeight:700,textDecoration:done[i]?"line-through":"none"}}>{item.icon} {item.task}</div>
+                                  <div style={{fontSize:10,color:typeColor[item.type],fontWeight:700,background:`${typeColor[item.type]}22`,padding:"2px 8px",borderRadius:4}}>{item.time}</div>
+                                </div>
+                                <div style={{fontSize:11,color:"#64748b",marginTop:4}}>{item.rule}</div>
+                              </div>
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  )}
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         )}
 
